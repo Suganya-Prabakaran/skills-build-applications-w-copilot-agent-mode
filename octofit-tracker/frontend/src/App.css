@@ -1,0 +1,106 @@
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #071b2c 0%, #0f3a5d 45%, #14578d 100%);
+  color: #f7fbff;
+}
+
+.octofit-navbar {
+  background: #0b2942;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.nav-link.active {
+  color: #ffd700 !important;
+  font-weight: 600;
+}
+
+.app-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.page-header {
+  padding: 1rem 1rem 1.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.page-header h1,
+.page-header p {
+  text-align: left;
+}
+
+.table thead th {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f8f9fa;
+}
+
+.table {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f1f5f9;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+}
+
+.card-header {
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.btn-primary {
+  background-color: #2f9cf5;
+  border-color: #2f9cf5;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #1f7ce0;
+  border-color: #1f7ce0;
+}
+
+.btn-outline-secondary {
+  color: #f8f9fa;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.text-light,
+.text-secondary {
+  color: #f1f5f9;
+}
+
+a {
+  color: #a5d8ff;
+}
+
+a:hover {
+  color: #fff;
+}
+
+.container {
+  max-width: 1100px;
+}
+
+body {
+  background: #071b2c;
+}
