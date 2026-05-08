@@ -16,20 +16,21 @@ const Users = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Users response data:', data);
-        setUsers(Array.isArray(data) ? data : data.results || []);
+        const records = Array.isArray(data) ? data : data.results || [];
+        setUsers(records);
       })
       .catch((error) => console.error('Users fetch error:', error));
   }, [endpoint]);
 
   const filteredUsers = users.filter((user) =>
-    `${user.name} ${user.email} ${user.team}`.toLowerCase().includes(search.toLowerCase())
+    `${user.name || ''} ${user.email || ''} ${user.team || ''}`.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="card shadow-sm">
+    <div className="card shadow-sm mb-4">
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <div>
-          <h2 className="h5 mb-1">Users</h2>
+          <h2 className="h4 mb-1">Users</h2>
           <p className="mb-0 text-white-50">Browse the OctoFit user roster from the backend API.</p>
         </div>
         <button className="btn btn-outline-light" onClick={() => setShowModal(true)}>
@@ -37,7 +38,7 @@ const Users = () => {
         </button>
       </div>
       <div className="card-body">
-        <form className="mb-3">
+        <form className="mb-4">
           <div className="input-group">
             <span className="input-group-text">Search</span>
             <input
@@ -50,7 +51,7 @@ const Users = () => {
           </div>
         </form>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered table-dark align-middle mb-0">
+          <table className="table table-striped table-bordered table-hover table-dark mb-0 align-middle">
             <thead>
               <tr>
                 <th>Name</th>
@@ -59,14 +60,15 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map((user, idx) => (
-                <tr key={idx}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.team}</td>
-                </tr>
-              ))}
-              {filteredUsers.length === 0 && (
+              {filteredUsers.length > 0 ? (
+                filteredUsers.map((user, idx) => (
+                  <tr key={idx}>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.team}</td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
                   <td colSpan="3" className="text-center text-muted py-4">
                     No users found.

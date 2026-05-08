@@ -16,20 +16,21 @@ const Workouts = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Workouts response data:', data);
-        setWorkouts(Array.isArray(data) ? data : data.results || []);
+        const records = Array.isArray(data) ? data : data.results || [];
+        setWorkouts(records);
       })
       .catch((error) => console.error('Workouts fetch error:', error));
   }, [endpoint]);
 
   const filteredWorkouts = workouts.filter((workout) =>
-    `${workout.name} ${workout.description} ${workout.suggested_for}`.toLowerCase().includes(search.toLowerCase())
+    `${workout.name || ''} ${workout.description || ''} ${workout.suggested_for || ''}`.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="card shadow-sm">
+    <div className="card shadow-sm mb-4">
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <div>
-          <h2 className="h5 mb-1">Workouts</h2>
+          <h2 className="h4 mb-1">Workouts</h2>
           <p className="mb-0 text-white-50">Explore workout suggestions returned from the API.</p>
         </div>
         <button className="btn btn-outline-light" onClick={() => setShowModal(true)}>
@@ -37,7 +38,7 @@ const Workouts = () => {
         </button>
       </div>
       <div className="card-body">
-        <form className="mb-3">
+        <form className="mb-4">
           <div className="input-group">
             <span className="input-group-text">Search</span>
             <input
@@ -50,7 +51,7 @@ const Workouts = () => {
           </div>
         </form>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered table-dark mb-0">
+          <table className="table table-striped table-bordered table-hover table-dark mb-0">
             <thead>
               <tr>
                 <th>Name</th>
@@ -59,14 +60,15 @@ const Workouts = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredWorkouts.map((workout, idx) => (
-                <tr key={idx}>
-                  <td>{workout.name}</td>
-                  <td>{workout.description}</td>
-                  <td>{workout.suggested_for}</td>
-                </tr>
-              ))}
-              {filteredWorkouts.length === 0 && (
+              {filteredWorkouts.length > 0 ? (
+                filteredWorkouts.map((workout, idx) => (
+                  <tr key={idx}>
+                    <td>{workout.name}</td>
+                    <td>{workout.description}</td>
+                    <td>{workout.suggested_for}</td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
                   <td colSpan="3" className="text-center text-muted py-4">
                     No workouts found.

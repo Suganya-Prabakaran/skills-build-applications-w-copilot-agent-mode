@@ -22,27 +22,32 @@ function App() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" to="/users">
+                <NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} to="/">
+                  Home
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} to="/users">
                   Users
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/teams">
+                <NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} to="/teams">
                   Teams
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/activities">
+                <NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} to="/activities">
                   Activities
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/workouts">
+                <NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} to="/workouts">
                   Workouts
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/leaderboard">
+                <NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} to="/leaderboard">
                   Leaderboard
                 </NavLink>
               </li>

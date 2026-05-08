@@ -16,20 +16,21 @@ const Activities = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Activities response data:', data);
-        setActivities(Array.isArray(data) ? data : data.results || []);
+        const records = Array.isArray(data) ? data : data.results || [];
+        setActivities(records);
       })
       .catch((error) => console.error('Activities fetch error:', error));
   }, [endpoint]);
 
   const filteredActivities = activities.filter((activity) =>
-    `${activity.user_name || activity.user} ${activity.type}`.toLowerCase().includes(search.toLowerCase())
+    `${activity.user_name || activity.user || ''} ${activity.type || ''}`.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="card shadow-sm">
+    <div className="card shadow-sm mb-4">
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <div>
-          <h2 className="h5 mb-1">Activities</h2>
+          <h2 className="h4 mb-1">Activities</h2>
           <p className="mb-0 text-white-50">Review logged activity data from the backend.</p>
         </div>
         <button className="btn btn-outline-light" onClick={() => setShowModal(true)}>
@@ -37,7 +38,7 @@ const Activities = () => {
         </button>
       </div>
       <div className="card-body">
-        <form className="mb-3">
+        <form className="mb-4">
           <div className="input-group">
             <span className="input-group-text">Filter</span>
             <input
@@ -50,7 +51,7 @@ const Activities = () => {
           </div>
         </form>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered table-dark mb-0">
+          <table className="table table-striped table-bordered table-hover table-dark mb-0">
             <thead>
               <tr>
                 <th>User</th>
@@ -60,15 +61,16 @@ const Activities = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredActivities.map((activity, idx) => (
-                <tr key={idx}>
-                  <td>{activity.user_name || activity.user}</td>
-                  <td>{activity.type}</td>
-                  <td>{activity.duration}</td>
-                  <td>{new Date(activity.date).toLocaleDateString()}</td>
-                </tr>
-              ))}
-              {filteredActivities.length === 0 && (
+              {filteredActivities.length > 0 ? (
+                filteredActivities.map((activity, idx) => (
+                  <tr key={idx}>
+                    <td>{activity.user_name || activity.user}</td>
+                    <td>{activity.type}</td>
+                    <td>{activity.duration}</td>
+                    <td>{activity.date ? new Date(activity.date).toLocaleDateString() : 'N/A'}</td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
                   <td colSpan="4" className="text-center text-muted py-4">
                     No activities found.

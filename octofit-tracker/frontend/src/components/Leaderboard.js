@@ -16,20 +16,21 @@ const Leaderboard = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Leaderboard response data:', data);
-        setLeaderboard(Array.isArray(data) ? data : data.results || []);
+        const records = Array.isArray(data) ? data : data.results || [];
+        setLeaderboard(records);
       })
       .catch((error) => console.error('Leaderboard fetch error:', error));
   }, [endpoint]);
 
   const filteredLeaderboard = leaderboard.filter((entry) =>
-    `${entry.user_name || entry.user} ${entry.rank} ${entry.points}`.toLowerCase().includes(search.toLowerCase())
+    `${entry.user_name || entry.user || ''} ${entry.rank || ''} ${entry.points || ''}`.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="card shadow-sm">
+    <div className="card shadow-sm mb-4">
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <div>
-          <h2 className="h5 mb-1">Leaderboard</h2>
+          <h2 className="h4 mb-1">Leaderboard</h2>
           <p className="mb-0 text-white-50">See the top performers from the backend leaderboard.</p>
         </div>
         <button className="btn btn-outline-light" onClick={() => setShowModal(true)}>
@@ -37,7 +38,7 @@ const Leaderboard = () => {
         </button>
       </div>
       <div className="card-body">
-        <form className="mb-3">
+        <form className="mb-4">
           <div className="input-group">
             <span className="input-group-text">Filter</span>
             <input
@@ -50,7 +51,7 @@ const Leaderboard = () => {
           </div>
         </form>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered table-dark mb-0">
+          <table className="table table-striped table-bordered table-hover table-dark mb-0">
             <thead>
               <tr>
                 <th>Rank</th>
@@ -59,14 +60,15 @@ const Leaderboard = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredLeaderboard.map((entry, idx) => (
-                <tr key={idx}>
-                  <td>{entry.rank}</td>
-                  <td>{entry.user_name || entry.user}</td>
-                  <td>{entry.points}</td>
-                </tr>
-              ))}
-              {filteredLeaderboard.length === 0 && (
+              {filteredLeaderboard.length > 0 ? (
+                filteredLeaderboard.map((entry, idx) => (
+                  <tr key={idx}>
+                    <td>{entry.rank}</td>
+                    <td>{entry.user_name || entry.user}</td>
+                    <td>{entry.points}</td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
                   <td colSpan="3" className="text-center text-muted py-4">
                     No leaderboard entries found.

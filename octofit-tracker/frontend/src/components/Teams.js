@@ -16,28 +16,29 @@ const Teams = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Teams response data:', data);
-        setTeams(Array.isArray(data) ? data : data.results || []);
+        const records = Array.isArray(data) ? data : data.results || [];
+        setTeams(records);
       })
       .catch((error) => console.error('Teams fetch error:', error));
   }, [endpoint]);
 
   const filteredTeams = teams.filter((team) =>
-    `${team.name} ${team.description}`.toLowerCase().includes(search.toLowerCase())
+    `${team.name || ''} ${team.description || ''}`.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="card shadow-sm">
+    <div className="card shadow-sm mb-4">
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <div>
-          <h2 className="h5 mb-1">Teams</h2>
-          <p className="mb-0 text-white-50">View the Marvel and DC teams from the API.</p>
+          <h2 className="h4 mb-1">Teams</h2>
+          <p className="mb-0 text-white-50">View the teams from the backend API.</p>
         </div>
         <button className="btn btn-outline-light" onClick={() => setShowModal(true)}>
           View JSON
         </button>
       </div>
       <div className="card-body">
-        <form className="mb-3">
+        <form className="mb-4">
           <div className="input-group">
             <span className="input-group-text">Filter</span>
             <input
@@ -50,7 +51,7 @@ const Teams = () => {
           </div>
         </form>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered table-dark mb-0">
+          <table className="table table-striped table-bordered table-hover table-dark mb-0">
             <thead>
               <tr>
                 <th>Team</th>
@@ -58,13 +59,14 @@ const Teams = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredTeams.map((team, idx) => (
-                <tr key={idx}>
-                  <td>{team.name}</td>
-                  <td>{team.description}</td>
-                </tr>
-              ))}
-              {filteredTeams.length === 0 && (
+              {filteredTeams.length > 0 ? (
+                filteredTeams.map((team, idx) => (
+                  <tr key={idx}>
+                    <td>{team.name}</td>
+                    <td>{team.description}</td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
                   <td colSpan="2" className="text-center text-muted py-4">
                     No teams found.
