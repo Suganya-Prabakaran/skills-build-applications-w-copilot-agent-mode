@@ -49,3 +49,14 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
 ]
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("activities/", views.activities, name="activities"),
+    path("leaderboard/", views.leaderboard, name="leaderboard"),
+    path("teams/", views.teams, name="teams"),
+    path("users/", views.users, name="users"),
+    path("workouts/", views.workouts, name="workouts"),
+]

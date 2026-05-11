@@ -21,3 +21,30 @@ class WorkoutViewSet(viewsets.ModelViewSet):
 class LeaderboardViewSet(viewsets.ModelViewSet):
     queryset = Leaderboard.objects.all()
     serializer_class = LeaderboardSerializer
+
+from django.http import JsonResponse
+
+def activities(request):
+    # Replace with real query logic
+    data = {"activities": ["run", "swim", "cycle"]}
+    return JsonResponse(data)
+
+def leaderboard(request):
+    # Replace with real query logic
+    data = {"leaderboard": [{"user": "Alice", "score": 100}, {"user": "Bob", "score": 90}]}
+    return JsonResponse(data)
+
+def teams(request):
+    # Replace with real query logic
+    data = {"teams": ["Team Octo", "Team Fit"]}
+    return JsonResponse(data)
+
+def users(request):
+    # Replace with real query logic
+    data = {"users": [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]}
+    return JsonResponse(data)
+
+def workouts(request):
+    # Replace with real query logic
+    data = {"workouts": ["pushups", "squats", "plank"]}
+    return JsonResponse(data)
