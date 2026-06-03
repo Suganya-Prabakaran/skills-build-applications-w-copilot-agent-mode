@@ -7,10 +7,61 @@ import Workouts from './components/Workouts';
 import Leaderboard from './components/Leaderboard';
 import logo from './assets/octofitapp-small.png';
 
+const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
+const apiOrigin = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : 'http://localhost:8000';
+
+const HomeDashboard = () => (
+  <div className="card data-card shadow-sm">
+    <div className="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+      <div>
+        <h2 className="h4 mb-1">Welcome to OctoFit Tracker</h2>
+        <p className="mb-0 text-light-emphasis">
+          Use the sections below to browse users, teams, activities, workouts, and leaderboard data.
+        </p>
+        <p className="mb-0 small">
+          API Base: <span className="fw-semibold">{apiOrigin}</span>
+        </p>
+      </div>
+      <a
+        className="btn btn-outline-light btn-sm"
+        href="https://getbootstrap.com/docs/5.3/getting-started/introduction/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Bootstrap Docs
+      </a>
+    </div>
+    <div className="card-body">
+      <h3 className="h5 mb-3">Quick Navigation</h3>
+      <div className="list-group">
+        <NavLink to="/users" className="list-group-item list-group-item-action">
+          Users
+        </NavLink>
+        <NavLink to="/teams" className="list-group-item list-group-item-action">
+          Teams
+        </NavLink>
+        <NavLink to="/activities" className="list-group-item list-group-item-action">
+          Activities
+        </NavLink>
+        <NavLink to="/workouts" className="list-group-item list-group-item-action">
+          Workouts
+        </NavLink>
+        <NavLink to="/leaderboard" className="list-group-item list-group-item-action">
+          Leaderboard
+        </NavLink>
+      </div>
+    </div>
+  </div>
+);
+
 function App() {
+  console.log('OctoFit frontend routes initialized with react-router-dom. API base:', apiOrigin);
+
   return (
     <div className="App">
-      <nav className="navbar navbar-expand-lg navbar-dark octofit-navbar">
+      <nav className="navbar navbar-expand-lg navbar-dark octofit-navbar sticky-top">
         <div className="container-fluid">
           <NavLink className="navbar-brand d-flex align-items-center" to="/">
             <img src={logo} alt="OctoFit" className="app-logo me-2" />
@@ -56,13 +107,16 @@ function App() {
         </div>
       </nav>
 
-      <main className="container mt-4">
+      <main className="container py-4">
         <div className="page-header mb-4">
-          <h1 className="display-5 text-light">OctoFit Tracker Dashboard</h1>
-          <p className="lead text-secondary">Browse users, teams, workouts, activities, and leaderboard data from the backend API.</p>
+          <div className="d-flex align-items-center gap-3 page-branding mb-2">
+            <img src={logo} alt="OctoFit brand" className="page-logo" />
+            <h1 className="display-6 mb-0">OctoFit Tracker Dashboard</h1>
+          </div>
+          <p className="lead mb-0">Explore your fitness data with consistent Bootstrap cards, tables, forms, links, and modals.</p>
         </div>
         <Routes>
-          <Route path="/" element={<div className="alert alert-info">Welcome to OctoFit Tracker. Choose a section from the menu.</div>} />
+          <Route path="/" element={<HomeDashboard />} />
           <Route path="/users" element={<Users />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/activities" element={<Activities />} />

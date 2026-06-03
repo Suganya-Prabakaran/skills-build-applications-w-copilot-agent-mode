@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const Teams = () => {
+  const tableClassName = 'table table-striped table-hover table-bordered align-middle mb-0 data-table';
   const [teams, setTeams] = useState([]);
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -11,11 +12,11 @@ const Teams = () => {
   const endpoint = `${baseUrl}/api/teams/`;
 
   useEffect(() => {
-    console.log('Fetching Teams from:', endpoint);
+    console.log('Teams endpoint:', endpoint);
     fetch(endpoint)
       .then((response) => response.json())
       .then((data) => {
-        console.log('Teams response data:', data);
+        console.log('Teams fetched data:', data);
         const records = Array.isArray(data) ? data : data.results || [];
         setTeams(records);
       })
@@ -27,31 +28,49 @@ const Teams = () => {
   );
 
   return (
-    <div className="card shadow-sm mb-4">
-      <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <div className="card data-card shadow-sm mb-4">
+      <div className="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
         <div>
           <h2 className="h4 mb-1">Teams</h2>
-          <p className="mb-0 text-white-50">View the teams from the backend API.</p>
+          <p className="mb-0 text-light-emphasis">View the teams from the backend API.</p>
         </div>
-        <button className="btn btn-outline-light" onClick={() => setShowModal(true)}>
-          View JSON
-        </button>
+        <div className="d-flex align-items-center gap-2">
+          <a
+            className="btn btn-link link-light link-underline-opacity-25 link-underline-opacity-100-hover px-0"
+            href={endpoint}
+            target="_blank"
+            rel="noreferrer"
+          >
+            API endpoint
+          </a>
+          <button type="button" className="btn btn-outline-light btn-sm" onClick={() => setShowModal(true)}>
+            View JSON
+          </button>
+        </div>
       </div>
+
       <div className="card-body">
-        <form className="mb-4">
-          <div className="input-group">
-            <span className="input-group-text">Filter</span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search teams"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+        <form className="row g-3 mb-3" onSubmit={(e) => e.preventDefault()}>
+          <div className="col-12">
+            <label htmlFor="teamsSearch" className="form-label mb-1">
+              Search Teams
+            </label>
+            <div className="input-group">
+              <span className="input-group-text">Filter</span>
+              <input
+                id="teamsSearch"
+                type="text"
+                className="form-control"
+                placeholder="Search teams"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
           </div>
         </form>
+
         <div className="table-responsive">
-          <table className="table table-striped table-bordered table-hover table-dark mb-0">
+          <table className={tableClassName}>
             <thead>
               <tr>
                 <th>Team</th>
@@ -61,7 +80,7 @@ const Teams = () => {
             <tbody>
               {filteredTeams.length > 0 ? (
                 filteredTeams.map((team, idx) => (
-                  <tr key={idx}>
+                  <tr key={`${team.name || 'team'}-${idx}`}>
                     <td>{team.name}</td>
                     <td>{team.description}</td>
                   </tr>
@@ -79,24 +98,32 @@ const Teams = () => {
       </div>
 
       {showModal && (
-        <div className="modal fade show d-block" tabIndex="-1" role="dialog">
-          <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content bg-dark text-white">
-              <div className="modal-header">
-                <h5 className="modal-title">Raw Teams JSON</h5>
-                <button type="button" className="btn-close btn-close-white" aria-label="Close" onClick={() => setShowModal(false)} />
-              </div>
-              <div className="modal-body">
-                <pre className="bg-black text-white p-3 rounded">{JSON.stringify(teams, null, 2)}</pre>
-              </div>
-              <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
-                  Close
-                </button>
+        <>
+          <div className="modal fade show d-block" tabIndex="-1" aria-modal="true" role="dialog">
+            <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+              <div className="modal-content json-modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Raw Teams JSON</h5>
+                  <button
+                    type="button"
+                    className="btn-close btn-close-white"
+                    aria-label="Close"
+                    onClick={() => setShowModal(false)}
+                  />
+                </div>
+                <div className="modal-body">
+                  <pre className="json-pre">{JSON.stringify(teams, null, 2)}</pre>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          <div className="modal-backdrop fade show" onClick={() => setShowModal(false)} />
+        </>
       )}
     </div>
   );
