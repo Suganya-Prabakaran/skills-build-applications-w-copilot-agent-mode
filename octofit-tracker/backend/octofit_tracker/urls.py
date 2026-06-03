@@ -21,6 +21,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from .views import UserViewSet, TeamViewSet, ActivityViewSet, WorkoutViewSet, LeaderboardViewSet
+from . import views
 
 # Create router and register viewsets
 router = DefaultRouter()
@@ -48,12 +49,6 @@ urlpatterns = [
     path('', api_root, name='api-root'),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
-]
-
-from django.urls import path
-from . import views
-
-urlpatterns = [
     path("activities/", views.activities, name="activities"),
     path("leaderboard/", views.leaderboard, name="leaderboard"),
     path("teams/", views.teams, name="teams"),

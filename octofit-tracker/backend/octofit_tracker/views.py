@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .models import User, Team, Activity, Workout, Leaderboard
 from .serializers import UserSerializer, TeamSerializer, ActivitySerializer, WorkoutSerializer, LeaderboardSerializer
 
@@ -22,29 +24,32 @@ class LeaderboardViewSet(viewsets.ModelViewSet):
     queryset = Leaderboard.objects.all()
     serializer_class = LeaderboardSerializer
 
-from django.http import JsonResponse
-
+@api_view(['GET'])
 def activities(request):
-    # Replace with real query logic
-    data = {"activities": ["run", "swim", "cycle"]}
-    return JsonResponse(data)
+    activities = Activity.objects.all()
+    serializer = ActivitySerializer(activities, many=True)
+    return Response({"activities": serializer.data})
 
+@api_view(['GET'])
 def leaderboard(request):
-    # Replace with real query logic
-    data = {"leaderboard": [{"user": "Alice", "score": 100}, {"user": "Bob", "score": 90}]}
-    return JsonResponse(data)
+    leaderboard = Leaderboard.objects.all().order_by('-points')
+    serializer = LeaderboardSerializer(leaderboard, many=True)
+    return Response({"leaderboard": serializer.data})
 
+@api_view(['GET'])
 def teams(request):
-    # Replace with real query logic
-    data = {"teams": ["Team Octo", "Team Fit"]}
-    return JsonResponse(data)
+    teams = Team.objects.all()
+    serializer = TeamSerializer(teams, many=True)
+    return Response({"teams": serializer.data})
 
+@api_view(['GET'])
 def users(request):
-    # Replace with real query logic
-    data = {"users": [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]}
-    return JsonResponse(data)
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response({"users": serializer.data})
 
+@api_view(['GET'])
 def workouts(request):
-    # Replace with real query logic
-    data = {"workouts": ["pushups", "squats", "plank"]}
-    return JsonResponse(data)
+    workouts = Workout.objects.all()
+    serializer = WorkoutSerializer(workouts, many=True)
+    return Response({"workouts": serializer.data})
