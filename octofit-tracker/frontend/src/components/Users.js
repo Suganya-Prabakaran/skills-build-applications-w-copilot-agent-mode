@@ -6,10 +6,9 @@ const Users = () => {
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
-  const baseUrl = codespaceName
-    ? `https://${codespaceName}-8000.app.github.dev`
-    : 'http://localhost:8000';
-  const endpoint = `${baseUrl}/api/users/`;
+  const endpoint = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev/api/users/`
+    : 'http://localhost:8000/api/users/';
 
   useEffect(() => {
     console.log('Users endpoint:', endpoint);

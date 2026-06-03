@@ -6,10 +6,9 @@ const Workouts = () => {
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
-  const baseUrl = codespaceName
-    ? `https://${codespaceName}-8000.app.github.dev`
-    : 'http://localhost:8000';
-  const endpoint = `${baseUrl}/api/workouts/`;
+  const endpoint = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+    : 'http://localhost:8000/api/workouts/';
 
   useEffect(() => {
     console.log('Workouts endpoint:', endpoint);
